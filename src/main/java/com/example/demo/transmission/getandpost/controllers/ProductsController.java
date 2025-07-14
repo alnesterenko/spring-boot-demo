@@ -38,15 +38,13 @@ public class ProductsController {
     /* Аннотация @GetMapping связывает действие контроллера с HTTP-методом POST, имеющим заданный путь. */
     @PostMapping ("/products")
     public String addProduct(
-            /* Из параметров запроса получаем наименование и цену добавляемого товара. */
-            @RequestParam String name,
-            @RequestParam double price,
+            /* Класс модели можно передавать непосредственно в действие контроллера как параметр.
+             Spring знает, что в этом случае нужно создать экземпляр,
+              атрибуты которого соответствуют параметрам запроса.
+               Для класса модели должен быть определен конструктор по умолчанию,
+                чтобы Spring мог создать экземпляр этого класса перед вызовом метода действия. */
+            Product product,
             Model page) {
-        /* Создаём новый экземпляр Product и добавляем его в список с помощью метода сервиса,
-        * реализующего данный сценарий использования. */
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
         productService.addProduct(product);
         /* Получаем список товаров и передаём его в представление */
         var products = productService.findAll();
