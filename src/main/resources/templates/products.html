@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- Определяем префикс th, чтобы использовать возможности Thymeleaf -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+    <h1>Products</h1>
+    <h2>Wiev products</h2>
+
+    <table>
+        <tr>
+            <th>PRODUCT NAME</th>
+            <th>PRODUCT PRICE</th>
+        </tr>
+        <!-- Используем функцию Thymeleaf th:each, чтобы выполнить итерации по всей коллекции товаров
+         и вывести строку таблицы для каждого товара в списке -->
+        <tr th:each="product: ${products}">
+            <!-- В каждой строке таблицы выводим наименование и цену товара -->
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+        </tr>
+    </table>
+    <h2>Add product</h2>
+    <!-- При передаче этой HTML-формы создается POST-запрос для пути /products -->
+    <form action="/products" method="POST">
+        <!-- Данный компонент <input> позволяет пользователю ввести наименование товара.
+         Значение этого компонента передается в виде параметра запроса с ключом name -->
+        Name: <input type="text" name="name"><br/>
+        <!-- Данный компонент <input> позволяет пользователю ввести цену товара.
+         Значение этого компонента передается в виде параметра запроса с ключом price -->
+        Price: <input type="number" step="any" name="price"><br/>
+        <!-- Эта кнопка позволяет пользователю отправить форму -->
+        <button type="submit">Add product</button>
+    </form>
+</body>
+</html>
