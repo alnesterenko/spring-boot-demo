@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body>
+<!-- Получаем от контроллера имя пользователя и выводим его на странице в приветствии -->
+    <h1>Welcome, <span th:text="${username}"></span></h1>
+<!-- приветствииДобавляем на страницу ссылку, которая отправляет HTTP-запрос с параметром Logout.
+ Получив этот параметр, контроллер удалит из сессии значение атрибута username -->
+    <a href="/main?logout">Log out</a>
+</body>
+</html>
