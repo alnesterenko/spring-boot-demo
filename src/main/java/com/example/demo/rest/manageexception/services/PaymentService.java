@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentService {
 
-    public PaymentDetails processPayment() {
+    public PaymentDetails processPayment(String flag) {
+        if (flag != null && flag.equals("true")) {
+            PaymentDetails paymentDetails = new PaymentDetails();
+            paymentDetails.setAmount(100.0);
+            return paymentDetails;
+        }
         throw new NotEnoughMoneyException();
     }
 }

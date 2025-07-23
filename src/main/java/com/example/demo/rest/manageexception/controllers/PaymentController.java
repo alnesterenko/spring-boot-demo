@@ -7,6 +7,7 @@ import com.example.demo.rest.manageexception.services.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,10 +20,12 @@ public class PaymentController {
     }
     /* !!! Вполне логично платёж отправлять через POST !!! */
     @PostMapping("/payment")
-    public ResponseEntity<?> makePayment() {
+    public ResponseEntity<?> makePayment(
+            @RequestParam (required = false) String flag
+    ) {
         /* Пытаемся вызвать метод сервиса processPayment() */
         try {
-            PaymentDetails paymentDetails = paymentService.processPayment();
+            PaymentDetails paymentDetails = paymentService.processPayment(flag);
             /* В случае успешного завершения метода сервиса возвращаем HTTP-ответ со статусом Accepted
              и экземпляром PaymentDetails, содержащимся в теле ответа */
             return ResponseEntity
