@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.logging.Logger;
 
+/* !!! Если не использовать @RestController или @RequestBody, то диспечер сервлетов будет ждать от контроллера
+* возвращение имени представления. !!! */
+
 @RestController
 public class PaymentController {
 
