@@ -30,6 +30,7 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!-- Используем ту же веб-зависимость, что и в предыдущих главах, для создания конечных точек REST -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -56,6 +57,28 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<!-- Добавляем JDBC-диспетчер для получения доступа ко всем функциям, необходимым для взаимодействия с базами данных посредством JDBC -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<!-- Добавляем зависимость H2, чтобы установить базу данных в оперативной памяти, используемую в данном примере, и JDBC-драйвер для доступа к ней -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<!-- База данных и JDBC-драйвер понадобятся только во время работы приложения, но не на этапе компиляции.
+			 Чтобы сообщить Maven, что эти зависимости нужны только при выполнении приложения,
+			  добавляем тег <scope> со значением runtime -->
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Следующая зависимость для "гарячей" замены файлов -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
