@@ -32,6 +32,8 @@ public class TransferService {
         /* Устанавливаем новые значения счёта для отправителя и получателя */
         accountRepository.changeAmount(idSender, senderNewAmount);
         accountRepository.changeAmount(idReceiver, receiverNewAmount);
+/* В конце метода выбрасываем исключение чтобы имитировать проблему в процессе транзакции. */
+        throw new RuntimeException("О нет! Всё накрылось медным тазом!");
     }
 
     public List<Account> getAllAccounts() {
