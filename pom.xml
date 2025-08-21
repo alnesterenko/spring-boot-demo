@@ -18,6 +18,7 @@
         <module>useCastomDataSourse</module>
         <module>useStandartDataSourse</module>
         <module>firstTransaction</module>
+        <module>useSpringData</module>
     </modules>
     <properties>
         <java.version>17</java.version>
