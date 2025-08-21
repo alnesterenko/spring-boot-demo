@@ -2,6 +2,10 @@ package springdata.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import springdata.model.Account;
 import springdata.repository.AccountRepository;
 
@@ -9,20 +13,26 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+/* С помощью данной аннотации разрешаем использование аннотаций @Mock и @InjectMocks */
+@ExtendWith(MockitoExtension.class)
 class TransferServiceTest {
+
+    /* С помощью аннотации @Mock создаем объект-заглушку и внедряем его в поле тестового класса,
+     перед которым стоит эта аннотация */
+    @Mock
+    private AccountRepository accountRepository;
+
+    /* С помощью аннотации @InjectMocks создаем тестируемый объект и внедряем его в поле,
+     перед которым стоит эта аннотация */
+    /* То есть, в transferService внедряем accountRepository */
+    @InjectMocks
+    private TransferService transferService;
 
     @Test
     @DisplayName("Test the amount is transferred from one account to another if no exception occurs.")
     public void moneyTransferHappyFlow() {
-        /* С помощью метода Mockito mock() создаем экземпляр-заглушку для объекта AccountRepository */
-        AccountRepository accountRepository = mock(AccountRepository.class);
-        /* Создаем экземпляр объекта TransferService, метод которого хотим протестировать.
-         Вместо настоящего экземпляра AccountRepository создаем объект, играющий роль его заглушки.
-          Таким образом мы заменяем зависимость на объект, которым можем управлять */
-        TransferService transferService = new TransferService(accountRepository);
 
         /* Создаем экземпляры Account для отправителя и получателя,
          где хранится информация об их счетах — предполагается,
