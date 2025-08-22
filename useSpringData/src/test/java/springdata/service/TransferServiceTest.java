@@ -6,13 +6,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import springdata.exception.AccountNotFoundException;
 import springdata.model.Account;
 import springdata.repository.AccountRepository;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /* С помощью данной аннотации разрешаем использование аннотаций @Mock и @InjectMocks */
@@ -63,4 +68,21 @@ class TransferServiceTest {
         verify(accountRepository).changeAmount(2, new BigDecimal(1100));
     }
 
+    @Test
+    public void moneyTransferDestinationAccountNotFoundFlow() {
+
+        Account sender = new Account();
+        sender.setId(1);
+        sender.setAmount(new BigDecimal(1000));
+
+        given(accountRepository.findById(1L)).willReturn(Optional.of(sender));
+        /* Управляя заглушкой AccountRepository, мы делаем так, чтобы метод findById(),
+         вызванный для счета получателя, возвращал пустой объект Optional */
+        given(accountRepository.findById(2L)).willReturn(Optional.empty());
+        /* Мы предполагаем, что для данного варианта выполнения метод должен выбрасывать исключение AccountNotFoundException */
+        assertThrows(AccountNotFoundException.class, () -> transferService.transferMoney(1, 2, new BigDecimal(100)));
+
+        /* Используем метод verify() с условием never() для уверенности, что метод changeAmount() не вызывается */
+        verify(accountRepository, never()).changeAmount(anyLong(), any());
+    }
 }
